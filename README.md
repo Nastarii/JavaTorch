@@ -1,3 +1,15 @@
+# Java Torch
+
+This repository is a implementation of a neural network from scratch in Java. To compile de project follow the next steps:
+
+```
+git clone https://github.com/Nastarii/JavaTorch.git
+```
+
+Run file `src/App.java`
+
+This file contains an example of a neuron with 4 inputs to predict an single output
+
 ## Getting Started
 
 Welcome to the VS Code Java world. Here is a guideline to help you get started to write Java code in Visual Studio Code.
