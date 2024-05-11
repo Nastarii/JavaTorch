@@ -7,6 +7,7 @@ public class App {
 
         LossFunction lossFunction = new LossFunction("MAE"); // Define the loss function
 
+        Layer layer = new Layer(4, 4, activation); // Initialize a Layer with 4 inputs and 1 neuron
         Neuron neuron = new Neuron(4);  // Initialize a Neuron with 4 inputs
 
         double[] inputs = {0.93, 0.95, 0.97, 0.98};  // Input values
@@ -17,12 +18,15 @@ public class App {
 
         for (int i = 0; i < epochs; i++) {
 
-            double output = neuron.forward(inputs, activation);  // Calculate the output of the neuron
+            double[] outputs = layer.forward(inputs); // Calculate the output of the layer
+            double output = neuron.forward(outputs, activation);  // Calculate the output of the neuron
 
             double loss = lossFunction.calculate(output, target);  // Calculate the loss between the predicted and target values
 
-            double[] newWeights = optimizer.backward(neuron.getWeights(), loss); // Update optimizer
+            double[] newLayerWeights = optimizer.backward(layer.getWeights(), loss); // Update optimizer
+            layer.step(newLayerWeights, optimizer.getLearningRate() * loss); // Update weigths and bias
 
+            double[] newWeights = optimizer.backward(neuron.getWeights(), loss); // Update optimizer
             neuron.step(newWeights, optimizer.getLearningRate() * loss); // Update weigths and bias
 
             System.out.println("Epoca:" + i + " Saida do neuronio: " + output); // Print Predictions

@@ -27,14 +27,6 @@ public class Neuron {
         return weights;
     }
 
-    // Set the weights of the Neuron
-    public void setWeights(double[] weights) {
-        if (weights.length != numInputs) {
-            throw new IllegalArgumentException("Invalid number of weights");
-        }
-        this.weights = weights;
-    }
-
     // Get the bias of the Neuron
     public double getBias() {
         return bias;
