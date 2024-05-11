@@ -38,6 +38,11 @@ public class Neuron {
     }
 
     public void step(double[] weights, double gradient) {
+
+        if (this.weights.length != weights.length) {
+            throw new IllegalArgumentException("Invalid number of weights");
+        }
+
         this.weights = weights;
         this.bias += gradient;
     }

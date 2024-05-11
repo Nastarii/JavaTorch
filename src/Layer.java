@@ -40,22 +40,34 @@ public class Layer {
 
     public double[] getWeights() {
         double[] weights = new double[this.numWeights]; // Initialize the weights array with the correct length
-        for (int i = 0; i < neurons.size(); i++) {
-            double[] neuronWeights = neurons.get(i).getWeights();
+        int neuronIndex = 0;
+        for (Neuron neuron : neurons) {
+            double[] neuronWeights = neuron.getWeights();
             for (int j = 0; j < neuronWeights.length; j++) {
-                weights[j] += neuronWeights[j]; // Add the weights of each neuron to the weights array
+                weights[j + neuronIndex] += neuronWeights[j]; // Add the weights of each neuron to the weights array
             }
+            neuronIndex += input_shape;
         }
         return weights;
     }
 
+    public int getNumWeights() {
+        return numWeights;
+    }
+
     public void step(double[] weights, double gradient) {
-        double[] layerWeights = new double[this.numWeights]; // Calculate the number of weights per neuron
-        for (int i = 0; i < numNeurons; i++) {
+
+        if (weights.length != this.numWeights) {
+            throw new IllegalArgumentException("Invalid number of weights");
+        }
+        double[] neuronWeights = new double[this.input_shape]; // Calculate the number of weights per neuron
+        int neuronIndex = 0;
+        for (Neuron neuron : neurons) {
             for (int j = 0; j < input_shape; j++) {
-                layerWeights[j] = weights[j + input_shape * i]; // Set the weights of each neuron in the layer
+                neuronWeights[j] = weights[j + neuronIndex]; // Set the weights of each neuron in the layer
             }
-            neurons.get(i).step(layerWeights, gradient);
+            neuronIndex += input_shape;
+            neuron.step(neuronWeights, gradient);
         }
     }
 
